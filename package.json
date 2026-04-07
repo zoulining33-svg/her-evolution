@@ -1,0 +1,11 @@
+{
+  "name": "her-evolution-backend",
+  "version": "1.0.0",
+  "description": "她进化 - AI成长伙伴后端",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {}
+}
