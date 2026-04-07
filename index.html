@@ -1,19 +1,362 @@
 <!DOCTYPE html>
-<html lang=“zh-CN”>
-<head> <meta charset=“UTF-8”> <meta name=“viewport” content=“width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no”> <title>她进化 · 小雅</title> <style> :root { --rose-100: #fdf2f4; --rose-200: #fbd6db; --rose-300: #f4a9b4; --rose-400: #e87085; --rose-500: #d4455f; --rose-600: #b8283e; --cream: #faf7f2; --cream-dark: #f0ebe0; --ink: #1a1410; --ink-soft: #4a3f35; --ink-light: #9a8e83; --shadow: rgba(212, 69, 95, 0.08); } * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, ‘Segoe UI’, ‘PingFang SC’, sans-serif; background: var(–cream); color: var(–ink); height: 100vh; overflow: hidden; display: flex; flex-direction: column; } .header { background: rgba(250, 247, 242, 0.95); backdrop-filter: blur(20px); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(212, 69, 95, 0.08); flex-shrink: 0; z-index: 10; } .header-left { display: flex; align-items: center; gap: 12px; } .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(–rose-400), var(–rose-500)); display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 16px rgba(212, 69, 95, 0.25); } .header-info h1 { font-size: 17px; font-weight: 600; letter-spacing: 1px; } .header-info p { font-size: 12px; color: var(–ink-light); display: flex; align-items: center; gap: 4px; } .status-dot { width: 8px; height: 8px; background: #34c759; border-radius: 50%; animation: pulse 2s infinite; } @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } } .header-right { display: flex; gap: 8px; } .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(–rose-100); color: var(–rose-500); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; } .icon-btn:hover { background: var(–rose-200); } .export-btn { width: auto; padding: 0 14px; border-radius: 18px; font-size: 12px; font-weight: 500; } .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; animation: fadeIn 0.6s ease; position: relative; } .welcome::before { content: ‘’; position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; background: radial-gradient(circle, rgba(212, 69, 95, 0.06) 0%, transparent 70%); border-radius: 50%; pointer-events: none; } @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } .welcome-avatar { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(–rose-400), var(–rose-600)); display: flex; align-items: center; justify-content: center; font-size: 56px; margin-bottom: 28px; box-shadow: 0 16px 48px rgba(212, 69, 95, 0.35), 0 0 0 8px rgba(212, 69, 95, 0.06); animation: breathe 3s ease-in-out infinite; position: relative; z-index: 1; } @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } } .welcome h2 { font-size: 26px; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; } .welcome-tagline { font-size: 13px; color: var(–rose-400); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-weight: 500; position: relative; z-index: 1; } .welcome p { font-size: 15px; color: var(–ink-soft); line-height: 1.7; max-width: 300px; position: relative; z-index: 1; } .welcome-tips { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px; } .welcome-tip { padding: 12px 16px; background: white; border-radius: 12px; font-size: 13px; color: var(–ink-soft); text-align: left; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 2px 12px var(–shadow); } .chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; } .message { display: flex; gap: 10px; max-width: 85%; animation: msgIn 0.4s ease; } .message.user { align-self: flex-end; flex-direction: row-reverse; } @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } .message-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(–rose-400), var(–rose-500)); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; } .message.user .message-avatar { background: linear-gradient(135deg, #6b8afd, #4a6fd9); } .message-content { background: white; padding: 14px 18px; border-radius: 18px; font-size: 15px; line-height: 1.7; color: var(–ink); box-shadow: 0 2px 12px var(–shadow); white-space: pre-wrap; word-break: break-word; } .message.user .message-content { background: linear-gradient(135deg, #4a6fd9, #3b5cc9); color: white; } .typing { padding: 14px 18px; } .typing span { display: inline-block; width: 8px; height: 8px; background: var(–rose-400); border-radius: 50%; margin: 0 2px; animation: typing 1.4s infinite; } .typing span:nth-child(2) { animation-delay: 0.2s; } .typing span:nth-child(3) { animation-delay: 0.4s; } @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } } .input-area { padding: 16px 20px 24px; background: rgba(250, 247, 242, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(212, 69, 95, 0.08); } .input-wrap { display: flex; gap: 12px; align-items: flex-end; background: white; border-radius: 24px; padding: 8px 8px 8px 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); } .input-field { flex: 1; border: none; outline: none; font-size: 15px; line-height: 1.6; color: var(–ink); resize: none; max-height: 120px; overflow-y: auto; } .input-field::placeholder { color: var(–ink-light); } .send-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: linear-gradient(135deg, var(–rose-400), var(–rose-500)); color: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; } .send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(212, 69, 95, 0.3); } .send-btn:disabled { background: var(–rose-200); cursor: not-allowed; transform: none; } </style>
-</head>
-<body> <header class=“header”> <div class=“header-left”> <div class=“avatar”>🌸</div> <div class=“header-info”> <h1>小雅</h1> <p><span class=“status-dot”></span> 在线</p> </div> </div> <div class=“header-right”> <button class=“icon-btn export-btn” onclick=“exportChat()”>📥 导出</button> </div> </header> <div class=“chat” id=“chatArea”> <div class=“welcome” id=“welcome”> <div class=“welcome-avatar”>🌸</div> <p class=“welcome-tagline”>她进化 · 小雅</p> <h2>想说的时候，就说</h2> <p>不用想太多格式，不用担心说错。</p> <div class=“welcome-tips”> <div class=“welcome-tip”><span>💭</span><span>工作、感情、自我成长，或者只是想找人陪</span></div> <div class=“welcome-tip”><span>🌱</span><span>一起聊聊最近的烦恼、纠结、或者开心的事</span></div> <div class=“welcome-tip”><span>💪</span><span>我会认真听，然后跟你一起想</span></div> </div> </div> </div> <div class=“input-area”> <div class=“input-wrap”> <textarea class=“input-field” id=“messageInput” placeholder=“想说点什么……” rows=“1” onkeydown=“if(event.key===‘Enter’&&!event.shiftKey){event.preventDefault();sendMessage();}” oninput=“this.style.height=‘auto’;this.style.height=Math.min(this.scrollHeight,120)+‘px’”></textarea> <button class=“send-btn” id=“sendBtn” onclick=“sendMessage()”>↑</button> </div> </div> <script> // API Key 已内置（元宝） const API_KEY = ‘sk-nVBzqDnFOfeFvw97o1C8kUmm7IweiHKbNUUc7Z1jZqBxtRyM’; const API_URL = ‘https://api.hunyuan.cloud.tencent.com/v1/chat/completions’; const MODEL = ‘hunyuan-lite’; let isLoading = false, hasStarted = false; let messages = JSON.parse(localStorage.getItem(‘xiaoya_messages’) || ‘[]’); const XIAOYA_PROMPT = `你现在要扮演小雅，"她进化"平台的AI成长伙伴。 小雅是一个希望女性越来越好的情感专家。她的愿景是帮女生走入长择，让老公愿意回归家庭，激发男生的保护欲。 核心观点：
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>她进化 · 小雅</title>
+    <style>
+        :root {
+            --rose-100: #fdf2f4;
+            --rose-200: #fbd6db;
+            --rose-300: #f4a9b4;
+            --rose-400: #e87085;
+            --rose-500: #d4455f;
+            --rose-600: #b8283e;
+            --cream: #faf7f2;
+            --cream-dark: #f0ebe0;
+            --ink: #1a1410;
+            --ink-soft: #4a3f35;
+            --ink-light: #9a8e83;
+            --shadow: rgba(212, 69, 95, 0.08);
+        }
 
-大吵大闹、情绪不稳定、强势的女生，不可能让男生有保护欲
-男生天生喜欢保护弱小
-如果女生什么都自己干了，男生为什么要做？
-但让男生做，要有方法 回答风格：
-分析问题透彻，一针见血
-指出女生的问题，但不是骂她
-教她怎么调整自己
-不要给情绪价值（不要说"你好委屈"）
-不要跟着骂男人 注意：
-不要加任何动作描写、只说话不要表演
-用户问具体问题时，先给分析和信息，不要一直反问引导
-回答要完整，不要截断`; window.onload = () => { if (messages.length > 0) { hasStarted = true; document.getElementById(‘welcome’).style.display = ‘none’; messages.forEach(m => addMessage(m.content, m.role)); scrollToBottom(); } }; async function sendMessage() { const input = document.getElementById(‘messageInput’); const message = input.value.trim(); if (!message || isLoading) return; input.value = ‘’; input.style.height = ‘auto’; if (!hasStarted) { hasStarted = true; document.getElementById(‘welcome’).style.display = ‘none’; } addMessage(message, ‘user’); messages.push({ role: ‘user’, content: message, time: new Date().toISOString() }); saveMessages(); showTyping(); isLoading = true; document.getElementById(‘sendBtn’).disabled = true; try { const reply = await callAI(message); hideTyping(); addMessage(reply, ‘assistant’); messages.push({ role: ‘assistant’, content: reply, time: new Date().toISOString() }); saveMessages(); } catch (e) { hideTyping(); addMessage('出错了: ’ + e.message, ‘assistant’); } isLoading = false; document.getElementById(‘sendBtn’).disabled = false; scrollToBottom(); } async function callAI(userMessage) { const allMessages = [ { role: ‘system’, content: XIAOYA_PROMPT }, …messages.
-…(truncated)…
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif;
+            background: var(--cream);
+            color: var(--ink);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(212, 69, 95, 0.08);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+
+        .avatar {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose-400), var(--rose-500));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 16px rgba(212, 69, 95, 0.25);
+        }
+
+        .header-info h1 { font-size: 17px; font-weight: 600; letter-spacing: 1px; }
+        .header-info p { font-size: 12px; color: var(--ink-light); display: flex; align-items: center; gap: 4px; }
+
+        .status-dot {
+            width: 8px; height: 8px; background: #34c759; border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .header-right { display: flex; gap: 8px; }
+
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: none;
+            background: var(--rose-100); color: var(--rose-500); font-size: 16px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover { background: var(--rose-200); }
+
+        .export-btn { width: auto; padding: 0 14px; border-radius: 18px; font-size: 12px; font-weight: 500; }
+
+        .welcome {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 40px 32px; text-align: center;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+        }
+
+        .welcome::before {
+            content: ''; position: absolute; top: -120px; left: 50%;
+            transform: translateX(-50%); width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(212, 69, 95, 0.06) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .welcome-avatar {
+            width: 120px; height: 120px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose-400), var(--rose-600));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 56px; margin-bottom: 28px;
+            box-shadow: 0 16px 48px rgba(212, 69, 95, 0.35), 0 0 0 8px rgba(212, 69, 95, 0.06);
+            animation: breathe 3s ease-in-out infinite;
+            position: relative; z-index: 1;
+        }
+
+        @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+
+        .welcome h2 { font-size: 26px; font-weight: 600; margin-bottom: 10px; position: relative; z-index: 1; }
+        .welcome-tagline { font-size: 13px; color: var(--rose-400); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-weight: 500; position: relative; z-index: 1; }
+        .welcome p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; max-width: 300px; position: relative; z-index: 1; }
+
+        .welcome-tips { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 280px; }
+
+        .welcome-tip {
+            padding: 12px 16px; background: white; border-radius: 12px;
+            font-size: 13px; color: var(--ink-soft); text-align: left;
+            display: flex; align-items: flex-start; gap: 10px;
+            box-shadow: 0 2px 12px var(--shadow);
+        }
+
+        .chat {
+            flex: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .message { display: flex; gap: 10px; max-width: 85%; animation: msgIn 0.4s ease; }
+        .message.user { align-self: flex-end; flex-direction: row-reverse; }
+
+        @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .message-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose-400), var(--rose-500));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
+        }
+
+        .message.user .message-avatar { background: linear-gradient(135deg, #6b8afd, #4a6fd9); }
+
+        .message-content {
+            background: white; padding: 14px 18px; border-radius: 18px;
+            font-size: 15px; line-height: 1.7; color: var(--ink);
+            box-shadow: 0 2px 12px var(--shadow);
+            white-space: pre-wrap; word-break: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #4a6fd9, #3b5cc9);
+            color: white;
+        }
+
+        .typing { padding: 14px 18px; }
+        .typing span {
+            display: inline-block; width: 8px; height: 8px;
+            background: var(--rose-400); border-radius: 50%; margin: 0 2px;
+            animation: typing 1.4s infinite;
+        }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+
+        .input-area {
+            padding: 16px 20px 24px;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(212, 69, 95, 0.08);
+        }
+
+        .input-wrap {
+            display: flex; gap: 12px; align-items: flex-end;
+            background: white; border-radius: 24px;
+            padding: 8px 8px 8px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .input-field {
+            flex: 1; border: none; outline: none;
+            font-size: 15px; line-height: 1.6; color: var(--ink);
+            resize: none; max-height: 120px; overflow-y: auto;
+        }
+
+        .input-field::placeholder { color: var(--ink-light); }
+
+        .send-btn {
+            width: 44px; height: 44px; border-radius: 50%; border: none;
+            background: linear-gradient(135deg, var(--rose-400), var(--rose-500));
+            color: white; font-size: 18px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(212, 69, 95, 0.3); }
+        .send-btn:disabled { background: var(--rose-200); cursor: not-allowed; transform: none; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <div class="avatar">🌸</div>
+            <div class="header-info">
+                <h1>小雅</h1>
+                <p><span class="status-dot"></span> 在线</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="icon-btn export-btn" onclick="exportChat()">📥 导出</button>
+        </div>
+    </header>
+
+    <div class="chat" id="chatArea">
+        <div class="welcome" id="welcome">
+            <div class="welcome-avatar">🌸</div>
+            <p class="welcome-tagline">她进化 · 小雅</p>
+            <h2>想说的时候，就说</h2>
+            <p>不用想太多格式，不用担心说错。</p>
+            <div class="welcome-tips">
+                <div class="welcome-tip"><span>💭</span><span>工作、感情、自我成长，或者只是想找人陪</span></div>
+                <div class="welcome-tip"><span>🌱</span><span>一起聊聊最近的烦恼、纠结、或者开心的事</span></div>
+                <div class="welcome-tip"><span>💪</span><span>我会认真听，然后跟你一起想</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-wrap">
+            <textarea class="input-field" id="messageInput" placeholder="想说点什么……" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'"></textarea>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+        </div>
+    </div>
+
+    <script>
+        // API Key 已内置（元宝）
+        const API_KEY = 'sk-nVBzqDnFOfeFvw97o1C8kUmm7IweiHKbNUUc7Z1jZqBxtRyM';
+        const API_URL = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
+        const MODEL = 'hunyuan-lite';
+
+        let isLoading = false, hasStarted = false;
+        let messages = JSON.parse(localStorage.getItem('xiaoya_messages') || '[]');
+
+        const XIAOYA_PROMPT = `你现在要扮演小雅，"她进化"平台的AI成长伙伴。
+
+小雅是一个希望女性越来越好的情感专家。她的愿景是帮女生走入长择，让老公愿意回归家庭，激发男生的保护欲。
+
+核心观点：
+- 大吵大闹、情绪不稳定、强势的女生，不可能让男生有保护欲
+- 男生天生喜欢保护弱小
+- 如果女生什么都自己干了，男生为什么要做？
+- 但让男生做，要有方法
+
+回答风格：
+- 分析问题透彻，一针见血
+- 指出女生的问题，但不是骂她
+- 教她怎么调整自己
+- 不要给情绪价值（不要说"你好委屈"）
+- 不要跟着骂男人
+
+注意：
+- 不要加任何动作描写、只说话不要表演
+- 用户问具体问题时，先给分析和信息，不要一直反问引导
+- 回答要完整，不要截断`;
+
+        window.onload = () => {
+            if (messages.length > 0) {
+                hasStarted = true;
+                document.getElementById('welcome').style.display = 'none';
+                messages.forEach(m => addMessage(m.content, m.role));
+                scrollToBottom();
+            }
+        };
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message || isLoading) return;
+
+            input.value = ''; input.style.height = 'auto';
+            if (!hasStarted) { hasStarted = true; document.getElementById('welcome').style.display = 'none'; }
+
+            addMessage(message, 'user');
+            messages.push({ role: 'user', content: message, time: new Date().toISOString() });
+            saveMessages();
+
+            showTyping();
+            isLoading = true; document.getElementById('sendBtn').disabled = true;
+
+            try {
+                const reply = await callAI(message);
+                hideTyping();
+                addMessage(reply, 'assistant');
+                messages.push({ role: 'assistant', content: reply, time: new Date().toISOString() });
+                saveMessages();
+            } catch (e) {
+                hideTyping();
+                addMessage('出错了: ' + e.message, 'assistant');
+            }
+
+            isLoading = false; document.getElementById('sendBtn').disabled = false;
+            scrollToBottom();
+        }
+
+        async function callAI(userMessage) {
+            const allMessages = [
+                { role: 'system', content: XIAOYA_PROMPT },
+                ...messages.filter(m => m.role !== 'system').slice(-50).map(m => ({ role: m.role, content: m.content })),
+                { role: 'user', content: userMessage }
+            ];
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
+                body: JSON.stringify({ model: MODEL, messages: allMessages, max_tokens: 4096, temperature: 0.8 })
+            });
+
+            if (!response.ok) {
+                const err = await response.text();
+                throw new Error('API 错误: ' + response.status);
+            }
+
+            const data = await response.json();
+            if (!data.choices || !data.choices[0]) throw new Error('返回格式异常');
+            return data.choices[0].message.content;
+        }
+
+        function addMessage(content, role) {
+            const chat = document.getElementById('chatArea');
+            const div = document.createElement('div');
+            div.className = `message ${role}`;
+            div.innerHTML = `<div class="message-avatar">${role === 'user' ? '👤' : '🌸'}</div><div class="message-content">${escapeHtml(content)}</div>`;
+            chat.appendChild(div);
+        }
+
+        function escapeHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+        function showTyping() {
+            const chat = document.getElementById('chatArea');
+            const div = document.createElement('div');
+            div.className = 'message assistant typing';
+            div.id = 'typingIndicator';
+            div.innerHTML = '<div class="message-avatar">🌸</div><div class="typing"><span></span><span></span><span></span></div>';
+            chat.appendChild(div);
+            scrollToBottom();
+        }
+
+        function hideTyping() { document.getElementById('typingIndicator')?.remove(); }
+        function scrollToBottom() { setTimeout(() => document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight, 50); }
+        function saveMessages() { localStorage.setItem('xiaoya_messages', JSON.stringify(messages.slice(-500))); }
+
+        function exportChat() {
+            let md = `# 她进化 - 小雅聊天记录\n\n导出时间：${new Date().toLocaleString()}\n\n---\n\n`;
+            messages.forEach(m => md += `### ${m.role === 'user' ? '👤 用户' : '🌸 小雅'}\n\n${m.content}\n\n---\n\n`);
+            const blob = new Blob([md], { type: 'text/markdown' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `xiaoya-chat-${Date.now()}.md`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
